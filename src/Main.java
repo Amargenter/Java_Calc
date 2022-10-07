@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Здравствуйте. Введите операцию (+,-,/,*) с двумя операндами: ");
-
+        System.out.println("Для выхода введите пустую строку.");
         while (true) {
             String input = scan.nextLine();
             if (input.isEmpty()) break;
@@ -58,11 +58,12 @@ public class Main {
                         throw new Exception("Входные числа должны быть в диапазоне [1:10].");
 
                     int r = doActions(first, last, getAction(lettersCharArray));
-                    if (r<=1) throw new Exception("В римской системе счисления нет отрицательных чисел.");
+                    if (r<1) throw new Exception("В римской системе счисления нет отрицательных чисел и нуля.");
                     System.out.println(arabicToRomanConvert(r));
                 } else throw new Exception("Используются разные системы счисления.");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+
             }
         }
     }
@@ -76,24 +77,27 @@ public class Main {
         }
     }
 
-    public static int romanToInt(String s) {
+    public static Integer romanToInt(String s) {
 
         String sToUpper = s.toUpperCase();
 
-        int result = 0;
-        int previous = 0; //предыдущий разряд
-
-        //проходим с конца в начало
-        for (int i = sToUpper.length() - 1; i >= 0; i--) {
-            int current = map.get(sToUpper);
-            if (current < previous) {
-                result -= current;
-            } else {
-                result += current;
+        try {
+            switch (sToUpper){
+                case "I": return 1;
+                case "II": return 2;
+                case "III": return 3;
+                case "IV": return 4;
+                case "V": return 5;
+                case "VI": return 6;
+                case "VII": return 7;
+                case "VIII": return 8;
+                case "IX": return 9;
+                case "X": return 10;
             }
-            previous = current;
+        } catch (InputMismatchException e) {
+            throw new InputMismatchException("Неверный формат данных");
         }
-        return result;
+        return -1;
     }
 
     /**
